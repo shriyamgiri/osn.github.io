@@ -1,0 +1,85 @@
+{% extends 'base.html' %} {% block content %} {% load cart %} {% load custom_filter %}
+<div class="container">
+    <div class='border rounded p-4 m-4 '>
+        <p class='display-2 pl-4 ml-4'>My Cart</p>
+        <hr>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>SNo.</th>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Sub Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{forloop.counter}}.</td>
+                    <td><img style="height: 80px;" class="rounded-circle" src="{{product.image.url}}"></td>
+                    <td>{{product.name}}</td>
+                    <td>{{product.price|currency}}</td>
+                    <td>{{product|cart_quantity:request.session.cart}}</td>
+                    <td>{{product|price_total:request.session.cart|currency}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <th colspan="3"></th>
+                    <th class="" colspan="">Total:</th>
+                    <th>{{products|total_cart_price:request.session.cart|currency}}</th>
+
+
+                </tr>
+
+
+            </tfoot>
+        </table>
+        <hr>
+        <div class='m-3 p-3'>
+            <a href='#' data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-outline-info border rounded col-lg-3 float-right">Check Out</a>
+            <hr>
+        </div>
+    </div>
+</div>
+
+<!--modal-->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Check Out</h5>
+                <hr>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="m-2 p-3">
+
+                    <form action="/check-out" method="POST">
+                        {% csrf_token %}
+
+                        <div class="form-group">
+                            <label for="">Phone No.</label>
+                            <input type="text" name="phone" class="form-control" placeholder="" aria-describedby="helpId">
+                            <label for="">Scan QR to pay with eSewa</label>
+                            <img src="https://esewa.com.np/common/images/esewa_logo.png">
+                            <img img width="230" height="230" src="https://onlineservicenepal.files.wordpress.com/2021/05/img_20210512_220858.png">
+
+                        </div>
+                        <input type="submit" class="btn float-right btn-outline-info  mx-3 my-3" value="Check Out"> </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

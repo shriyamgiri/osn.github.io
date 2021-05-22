@@ -1,0 +1,21 @@
+{% extends 'base.html' %} {% block content %} {% load cart %} {% load custom_filter %}
+<div class="container">
+    <div class="p-4 m-4">
+        <div class="col-lg-5 mx-auto border rounded pt-4 pb-2">
+            <h3 class="alert alert-light border rounded mt-4 mb-4 mx-3 text-white bg-danger">Login here</h3>
+
+            <form action="/check-out" method="POST">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="">Phone No.</label>
+                    <input type="text" name="phone" class="form-control" placeholder="" aria-describedby="helpId">
+                    <label for="">Scan QR to pay with eSewa</label>
+                    <img src="https://esewa.com.np/common/images/esewa_logo.png">
+                    <img img width="230" height="230" src="https://onlineservicenepal.files.wordpress.com/2021/05/img_20210512_220858.png">
+
+                </div>
+                <input type="submit" class="btn float-right btn-outline-info  mx-3 my-3" value="Check Out"> </form>
+        </div>
+    </div>
+</div>
